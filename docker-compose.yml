@@ -1,13 +1,8 @@
-version: "3.9"
-
 services:
 
   db:
+
     image: mariadb:11
-
-    container_name: drupal-db
-
-    restart: always
 
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -16,13 +11,11 @@ services:
       MYSQL_PASSWORD: drupal
 
     volumes:
-      - db_data:/var/lib/mysql
+      - db:/var/lib/mysql
 
   drupal:
 
     build: .
-
-    container_name: drupal-web
 
     depends_on:
       - db
@@ -30,14 +23,5 @@ services:
     ports:
       - "8080:80"
 
-    restart: always
-
-    environment:
-      DRUPAL_DB_HOST: db
-      DRUPAL_DB_NAME: drupal
-      DRUPAL_DB_USER: drupal
-      DRUPAL_DB_PASSWORD: drupal
-
 volumes:
-
-  db_data:
+  db:
